@@ -16,9 +16,9 @@
 #include "spi.h"
 
 typedef struct apa102_rgb_color_t {
-	uint8_t red;
-	uint8_t green;
 	uint8_t blue;
+	uint8_t green;
+	uint8_t red;
 
 	inline bool operator!=(const apa102_rgb_color_t &rhs) const {
 		return (red != rhs.red) || (green != rhs.green) || (blue != rhs.blue);
@@ -37,11 +37,29 @@ typedef struct apa102_rgb_color_t {
 		return {static_cast<uint8_t>(red / divisor), static_cast<uint8_t>(green / divisor), static_cast<uint8_t>(blue / divisor)};
 	}
 
-} rgb_color_t;
+} apa102_rgb_color_t;
 
 typedef struct apa102_pixel_t {
-	rgb_color_t color;
-	uint8_t brightness;
+	union
+	{
+		struct
+		{
+		    uint8_t brightness;
+			apa102_rgb_color_t color;
+		};
+
+		uint32_t data;
+	};
+
+	apa102_pixel_t(uint8_t red, uint8_t green, uint8_t blue, uint8_t brightness):
+    brightness( 0xE0 | brightness),
+    color({blue, green, red})
+    {}
+
+	apa102_pixel_t(uint32_t data):
+	data(data)
+	{}
+
 } apa102_pixel_t;
 
 class APA102Strip {
@@ -51,9 +69,11 @@ public:
 	APA102Strip(uint16_t led_count, SPI_HandleTypeDef *hdl_spi);
 	HAL_StatusTypeDef write_pixel_buffer();
 	void clear_pixel_buffer();
-	bool set_strip_color(apa102_rgb_color_t color, uint8_t brightness);
-	bool set_pixel_color(uint16_t pixel, apa102_rgb_color_t color, uint8_t brightness);
-	std::vector<apa102_pixel_t>& get_frame_buffer();
+	bool set_strip_color(uint8_t red, uint8_t green, uint8_t blue,
+			uint8_t brightness);
+	bool set_pixel_color(uint16_t pixel, uint8_t red, uint8_t green, uint8_t blue,
+			uint8_t brightness);
+	apa102_pixel_t * get_frame_buffer();
 	void set_led_count(uint16_t new_count);
 private:
 	static const constexpr uint32_t END_FRAME_HALF_CLOCK_CYCLES = 64;
@@ -63,6 +83,6 @@ private:
 	uint16_t end_frame_count;
 	std::vector<apa102_pixel_t> pixels;
 
-	void construct_frame_buffer(uint8_t *frame_buffer, uint32_t length);
 	int32_t calculate_end_frame_count();
+	void initialize_frame_buffer(uint16_t led_count);
 };

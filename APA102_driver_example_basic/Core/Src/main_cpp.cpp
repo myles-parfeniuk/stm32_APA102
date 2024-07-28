@@ -31,7 +31,7 @@ int cpp_main()
 	while(1)
 	{
 		strip.clear_pixel_buffer();
-		strip.set_pixel_color(pixel, {50, 0, 0}, APA102Strip::MAX_BRIGHTNESS); //set the currently chosen pixel to 50/255 red intensity, max brightness
+		strip.set_pixel_color(pixel, 0, 50, 50, APA102Strip::MAX_BRIGHTNESS); //set the currently chosen pixel to 50/255 red intensity, max brightness
 		status = strip.write_pixel_buffer();
 
 		//transmission failed
