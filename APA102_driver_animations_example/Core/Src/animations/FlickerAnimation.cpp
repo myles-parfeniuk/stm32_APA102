@@ -37,7 +37,9 @@ void FlickerAnimation::set_brightness(uint8_t new_brightness) {
 	HAL_TIM_Base_Start_IT(timer_hdl);
 }
 
-void FlickerAnimation::next_frame() {
+bool FlickerAnimation::next_frame() {
+	bool cycle_complete = false;
+
 	if(strip_on)
 	{
 		strip.set_strip_color(red, green, blue, brightness);
@@ -47,9 +49,12 @@ void FlickerAnimation::next_frame() {
 	{
 		strip.clear_pixel_buffer();
 		strip.write_pixel_buffer();
+		cycle_complete = true;
 	}
 
 	strip_on = !strip_on;
+
+	return cycle_complete;
 }
 
 void FlickerAnimation::start() {

@@ -31,7 +31,8 @@ void ChaseAnimation::set_brightness(uint8_t new_brightness) {
 	HAL_TIM_Base_Start_IT(timer_hdl);
 }
 
-void ChaseAnimation::next_frame() {
+bool ChaseAnimation::next_frame() {
+	bool cycle_complete = false;
 	std::span<apa102_pixel_t> pixels = strip.get_pixels();
 
 	std::rotate(pixels.rbegin(), pixels.rbegin() + 1, pixels.rend());
@@ -39,9 +40,14 @@ void ChaseAnimation::next_frame() {
 	rotation_counter++;
 
 	if (rotation_counter >= pixels.size())
+	{
 		rotation_counter = 0;
+		cycle_complete = true;
+	}
 
 	strip.write_pixel_buffer();
+
+	return cycle_complete;
 }
 
 void ChaseAnimation::start() {

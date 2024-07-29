@@ -5,9 +5,10 @@
  *
  *	This example lights up a single led at a time, shifting a red pixel over the length of the strip.
  *
- *	Originally compiled for an STM32L476RGT6 using the SPI1 perioheral with DMA; but, configuration can easily be changed using
+ *	Originally compiled for an STM32L476RGT6 using the SPI1 peripheral with DMA; but, configuration can easily be changed using
  *	the 'APA102_driver_basic_example.ioc' file as a guideline for peripheral configuration.
- *	UART peripheral is used to print error messages but is not critical to functionality, comment out if desired.
+ *
+ *	- Adjust LED_COUNT to the correct amount for your tape
  *
  *  Created on: Jul 26, 2024
  *      Author: myles
