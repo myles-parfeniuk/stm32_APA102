@@ -4,6 +4,7 @@
 <li>
     <a href="#about">About</a>
 </li>
+<li><a href="#video-demo">Video Demo</a></li>
 <li><a href="#running-examples">Running Examples</a></li>
 <li><a href="#configuring-a-new-project">Configuring A New Project</a></li>
 
@@ -13,6 +14,12 @@ stm32_APA102 is a C++ library for APA102 led pixel tape using cube HAL.
 
 It contains two examples, `APA102_driver_basic_example` demonstrating the basic functionality of the driver,
 and `APA102_driver_animations_example` which utilizes a timer peripheral to create some animations.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Video Demo
+
+[![APA102 Animation Demo](https://img.youtube.com/vi/J8TFftAH_eE/0.jpg)](https://www.youtube.com/watch?v=J8TFftAH_eE)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Running Examples
