@@ -7,17 +7,20 @@
 CPP_SRCS += \
 ../Core/Src/animations/ChaseAnimation.cpp \
 ../Core/Src/animations/CometAnimation.cpp \
-../Core/Src/animations/FlickerAnimation.cpp 
+../Core/Src/animations/FlickerAnimation.cpp \
+../Core/Src/animations/PulseAnimation.cpp 
 
 OBJS += \
 ./Core/Src/animations/ChaseAnimation.o \
 ./Core/Src/animations/CometAnimation.o \
-./Core/Src/animations/FlickerAnimation.o 
+./Core/Src/animations/FlickerAnimation.o \
+./Core/Src/animations/PulseAnimation.o 
 
 CPP_DEPS += \
 ./Core/Src/animations/ChaseAnimation.d \
 ./Core/Src/animations/CometAnimation.d \
-./Core/Src/animations/FlickerAnimation.d 
+./Core/Src/animations/FlickerAnimation.d \
+./Core/Src/animations/PulseAnimation.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -27,7 +30,7 @@ Core/Src/animations/%.o Core/Src/animations/%.su Core/Src/animations/%.cyclo: ..
 clean: clean-Core-2f-Src-2f-animations
 
 clean-Core-2f-Src-2f-animations:
-	-$(RM) ./Core/Src/animations/ChaseAnimation.cyclo ./Core/Src/animations/ChaseAnimation.d ./Core/Src/animations/ChaseAnimation.o ./Core/Src/animations/ChaseAnimation.su ./Core/Src/animations/CometAnimation.cyclo ./Core/Src/animations/CometAnimation.d ./Core/Src/animations/CometAnimation.o ./Core/Src/animations/CometAnimation.su ./Core/Src/animations/FlickerAnimation.cyclo ./Core/Src/animations/FlickerAnimation.d ./Core/Src/animations/FlickerAnimation.o ./Core/Src/animations/FlickerAnimation.su
+	-$(RM) ./Core/Src/animations/ChaseAnimation.cyclo ./Core/Src/animations/ChaseAnimation.d ./Core/Src/animations/ChaseAnimation.o ./Core/Src/animations/ChaseAnimation.su ./Core/Src/animations/CometAnimation.cyclo ./Core/Src/animations/CometAnimation.d ./Core/Src/animations/CometAnimation.o ./Core/Src/animations/CometAnimation.su ./Core/Src/animations/FlickerAnimation.cyclo ./Core/Src/animations/FlickerAnimation.d ./Core/Src/animations/FlickerAnimation.o ./Core/Src/animations/FlickerAnimation.su ./Core/Src/animations/PulseAnimation.cyclo ./Core/Src/animations/PulseAnimation.d ./Core/Src/animations/PulseAnimation.o ./Core/Src/animations/PulseAnimation.su
 
 .PHONY: clean-Core-2f-Src-2f-animations
 

@@ -16,7 +16,7 @@ ChaseAnimation::ChaseAnimation(APA102Strip &strip, TIM_HandleTypeDef *timer_hdl,
 }
 
 void ChaseAnimation::set_color(uint8_t red, uint8_t green, uint8_t blue) {
-	HAL_TIM_Base_Stop_IT(timer_hdl);
+	stop();
 	this->red = red;
 	this->green = green;
 	this->blue = blue;
@@ -25,7 +25,7 @@ void ChaseAnimation::set_color(uint8_t red, uint8_t green, uint8_t blue) {
 }
 
 void ChaseAnimation::set_brightness(uint8_t new_brightness) {
-	HAL_TIM_Base_Stop_IT(timer_hdl);
+	stop();
 	brightness = new_brightness;
 	construct_pixel_buffer();
 	HAL_TIM_Base_Start_IT(timer_hdl);
@@ -74,7 +74,10 @@ void ChaseAnimation::construct_pixel_buffer() {
 
 	//allocate memory for chase buffer
 	chase_buffer_sz = chase_length + spacing;
-	chase_buffer = new apa102_pixel_t[chase_buffer_sz];
+	chase_buffer = new(std::nothrow) apa102_pixel_t[chase_buffer_sz]; //we don't want to throw an exception here, return nullptr on failure instead
+
+	if(chase_buffer == nullptr)
+		return; //memory allocation failure
 
 	//build chase buffer
 	//chase pixels

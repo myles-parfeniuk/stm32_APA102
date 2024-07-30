@@ -26,13 +26,14 @@
 #include "animations/ChaseAnimation.h"
 #include "animations/FlickerAnimation.h"
 #include "animations/CometAnimation.h"
+#include "animations/PulseAnimation.h"
 
 //adjust LED_COUNT and display time
 static const constexpr uint16_t LED_COUNT = 60; //place your LED count here
 static const constexpr uint16_t ANIMATION_DISPLAY_TIME_MS = 15000; //display animation 15 seconds before switching to next
 
 //only adjust these if adding animations
-static const constexpr uint8_t TOTAL_ANIM = 3; //total amount of animations to loop through
+static const constexpr uint8_t TOTAL_ANIM = 4; //total amount of animations to loop through
 static const constexpr uint8_t MAX_COLORS = 5; //total amount of colors to loop through
 
 volatile bool next_frame = false; //next frame flag triggered by timer ISR
@@ -43,13 +44,13 @@ void Animation_TIMPeriodElapsedCallback(TIM_HandleTypeDef *htim);
 
 int cpp_main() {
 	uint32_t start_tick = 0;
-	uint8_t anim_idx = 1;
+	uint8_t anim_idx = 0;
 	uint8_t color_idx = 0;
 	bool cycle_complete;
 
 	//color buffer
-	apa102_rgb_color_t colors[MAX_COLORS] = { { 0, 10, 255 }, { 255, 0, 0 }, {
-			0, 50, 255 }, { 20, 0, 255 }, { 0, 255, 0 } }; //if using color struct directly, (b, g, r);
+	apa102_rgb_color_t colors[MAX_COLORS] = { { 0, 10, 255 }, { 0, 255, 0 }, { 255, 0, 0 }, {
+			0, 50, 255 }, { 20, 0, 255 } }; //if using color struct directly, (b, g, r);
 
 	APA102Strip strip(LED_COUNT, &hspi1); //create the led strip object
 
@@ -68,12 +69,16 @@ int cpp_main() {
 	//comet animation updating every 10ms, with 255 red intensity and 10 green intensity
 	CometAnimation comet_anim(strip, &htim2, 10, 255, 10, 0);
 
-	//current anim buffer
-	APA102Animation *anims[TOTAL_ANIM] = { &comet_anim, &chase_anim,
-			&flicker_anim };
+	//pulse animation updating every 10ms, same coloar as above
+	PulseAnimation pulse_anim(strip, &htim2, 10, 1000, 10, 255, 0);
+
+	//animation buffer
+	APA102Animation *anims[TOTAL_ANIM] = { &comet_anim, &pulse_anim, &chase_anim,
+			&flicker_anim};
 
 	//switch to and start the first animation
 	switch_animation(&comet_anim);
+	anim_idx++;
 
 	//set the start ticks for switching animations
 	start_tick = HAL_GetTick();

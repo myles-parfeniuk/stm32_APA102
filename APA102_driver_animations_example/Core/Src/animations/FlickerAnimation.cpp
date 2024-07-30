@@ -32,8 +32,6 @@ void FlickerAnimation::set_color(uint8_t red, uint8_t green, uint8_t blue) {
 void FlickerAnimation::set_brightness(uint8_t new_brightness) {
 	HAL_TIM_Base_Stop_IT(timer_hdl);
 	brightness = new_brightness;
-
-
 	HAL_TIM_Base_Start_IT(timer_hdl);
 }
 
