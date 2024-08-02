@@ -6,8 +6,16 @@
  */
 #include "APA102Strip.h"
 
+volatile bool APA102Strip::tx_done = true;
+
 APA102Strip::APA102Strip(uint16_t led_count, SPI_HandleTypeDef *hdl_spi) :
 		hdl_spi(hdl_spi), led_count(led_count) {
+
+		//SPI callback as lambda function
+		HAL_SPI_RegisterCallback(&hspi1, HAL_SPI_TX_COMPLETE_CB_ID, [](SPI_HandleTypeDef *hspi)
+			{
+				APA102Strip::tx_done = true;
+			});
 
 	initialize_frame_buffer(led_count);
 }
@@ -16,17 +24,12 @@ HAL_StatusTypeDef APA102Strip::write_pixel_buffer() {
 	uint32_t frame_buffer_sz = led_count * 4 + (4 * 1) + (4 * end_frame_count); //[(LEDN frames + start frame + end frames)] bytes
 	uint8_t *frame_buffer_ptr = reinterpret_cast<uint8_t*>(frame_buffer.data()); //cast the frame buffer vector to a uint8_t array
 	HAL_StatusTypeDef status;
-	HAL_SPI_StateTypeDef spi_state;
-
-	//write frame buffer to DMA and transmit over SPI
-	status = HAL_SPI_Transmit_DMA(hdl_spi, frame_buffer_ptr, frame_buffer_sz);
 
 	//wait until all data is out of the DMA before proceeding
-	do
-	{
-		spi_state =  HAL_SPI_GetState(hdl_spi);
-		HAL_Delay(1);
-	}while(spi_state != HAL_SPI_STATE_READY);
+	while(!tx_done);
+	tx_done = false;
+	//write frame buffer to DMA and transmit over SPI
+	status = HAL_SPI_Transmit_DMA(hdl_spi, frame_buffer_ptr, frame_buffer_sz);
 
 	return status;
 }
@@ -100,4 +103,3 @@ int32_t APA102Strip::calculate_end_frame_count() {
 	return (led_count + (END_FRAME_HALF_CLOCK_CYCLES - 1))
 			/ END_FRAME_HALF_CLOCK_CYCLES;
 }
-

@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "rng.h"
 #include "spi.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -92,6 +93,7 @@ int main(void)
   MX_DMA_Init();
   MX_SPI1_Init();
   MX_RNG_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   //jump to cpp program
   cpp_main();

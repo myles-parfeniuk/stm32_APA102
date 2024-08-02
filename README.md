@@ -25,10 +25,12 @@ and `APA102_driver_animations_example` which utilizes a timer peripheral to crea
 ## Running Examples
 The examples are compiled for an stm32l476RGT.
 
-If a stm32l476RGT is being used, from within stm32CubeIDE:    
-`file->import`, then select `Existing Projects into Workspace`, then browse to the respective example folder and click next.
+**If a stm32l476RGT is being used:**    
 
-If you are not using an stm32l476RGT:  
+From within stm32CubeIDE, click `file->import`, then select `Existing Projects into Workspace`, then browse to the respective example folder and click next.
+
+**If you are not using an stm32l476RGT:**  
+
 Follow the directions in the [Configuring A New Project](#configuring-a-new-project) then copy
 and paste the `main_cpp.cpp` of the respective example to `your_project/core/src` and `main_cpp.h` to `your_project/core/inc`.   
 
@@ -73,38 +75,42 @@ Next, edit the `main.c` file to include the `main_cpp.h` header and call the `cp
     ![image](README_images/spi_settings.png)  
 
 **5.**  
-    From the `DMA settings` tab of the same spi peripheral, add a request for SPIX_TX (in this case SPI1) by clicking the add button.  
+    From the `DMA settings` tab of the same SPI peripheral, add a request for SPIX_TX (in this case SPI1) by clicking the add button.  
     Set the priority to high/very high, if possible.  
     ![image](README_images/dma_settings.png)  
 
 **6.**  
-    If you are not using the animations, skip to step  **10**.
+    From the `NVIC settings` tab of the same SPI peripheral, enable the respective SPI global interrupt.   
+    ![image](README_images/spi_interrupt_settings.png)  
 
 **7.**  
-Select a timer peripheral to use for driving the animations from `Pinout & Configuration` and set the Prescaler to achieve a 20MHz
-tick frequency (in this case, 4), alternatively, replace *TIM_TICK_FREQ* in `APA102Animation.h` with your used tick frequency.  
-![image](README_images/timer_settings.png) 
+    If you are not using the animations, skip to step  **10**.
 
 **8.**  
+Select a timer peripheral to use for driving the animations from `Pinout & Configuration` and set the Prescaler to achieve a 20MHz
+tick frequency (in this case, 80MHz / 4 = 20MHz), alternatively, replace *TIM_TICK_FREQ* in `APA102Animation.h` with your used tick frequency.  
+![image](README_images/timer_settings.png) 
+
+**9.**  
 Select the `NVIC Settings` tab of the same timer peripheral and enable its respective interrupt.  
 ![image](README_images/interrupt_settings.png)
 
-**9.**  
-From `Project Manager` select the `Advanced Settings` tab and enable `Register CallBack` on `TIM`:  
+**10.**  
+From `Project Manager` select the `Advanced Settings` tab and enable `Register CallBack` on `SPI`, if you are using animations enable `TIM` as well:  
 ![image](README_images/register_callbacks.png) 
 
-**10.**     
+**11.**     
 From `Project Manager` select the `Code Generator` and check `'.c/.c' files per peripheral`. 
 ![image](README_images/code_generator.png) 
 
-**11.**     
+**12.**     
 Hit `ctrl+s` to save and generate code.  
 
-**12.**     
+**13.**     
 Select `project->properties` and click the `Settings` menu underneath the `C/C++ Build` drop down.  
 In `MCU/MPU G++ Compiler` set the Language Standard to C++ 20.    
 ![image](README_images/build_settings.png) 
 
-**13.**     
+**14.**     
 Copy and paste the `Inc` and `Src` from the repo `APA102_driver` folder into `your_project/Core`  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

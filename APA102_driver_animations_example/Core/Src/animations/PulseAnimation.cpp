@@ -109,5 +109,4 @@ bool PulseAnimation::next_frame() {
 
 void PulseAnimation::start() {
 	calculate_incrementers();
-	set_update_delay(update_delay_ms);
-}
+	set_update_delay(update_delay_ms);}

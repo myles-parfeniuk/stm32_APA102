@@ -108,7 +108,7 @@ private:
 	uint16_t end_frame_count;
 	std::vector<apa102_pixel_t> frame_buffer; //(start frame + pixel data + end frame)
 	std::span<apa102_pixel_t> pixels; //reference to pixel data in frame_buffer
-
+	static volatile bool tx_done;
 	int32_t calculate_end_frame_count();
 	void initialize_frame_buffer(uint16_t led_count);
 };

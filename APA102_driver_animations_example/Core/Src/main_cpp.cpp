@@ -41,7 +41,7 @@ APA102Animation *current_anim; //pointer to currently playing animation
 
 void switch_animation(APA102Animation *new_anim);
 void Animation_TIMPeriodElapsedCallback(TIM_HandleTypeDef *htim);
-
+void LED_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 int cpp_main() {
 	uint32_t start_tick = 0;
 	uint8_t anim_idx = 0;
@@ -132,4 +132,5 @@ void Animation_TIMPeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		next_frame = true; //assert local interrupt flag
 	}
 }
+
 

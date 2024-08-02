@@ -85,8 +85,8 @@ all: main-build
 main-build: APA102_driver_animations_example.elf secondary-outputs
 
 # Tool invocations
-APA102_driver_animations_example.elf APA102_driver_animations_example.map: $(OBJS) $(USER_OBJS) C:\Users\myles\STM32CubeIDE\workspace_1.15.1\test2\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "APA102_driver_animations_example.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\myles\STM32CubeIDE\workspace_1.15.1\test2\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="APA102_driver_animations_example.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+APA102_driver_animations_example.elf APA102_driver_animations_example.map: $(OBJS) $(USER_OBJS) C:\Users\myles\STM32CubeIDE\workspace_1.15.1\APA102_driver_animations_example\STM32L476RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "APA102_driver_animations_example.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\myles\STM32CubeIDE\workspace_1.15.1\APA102_driver_animations_example\STM32L476RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="APA102_driver_animations_example.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
